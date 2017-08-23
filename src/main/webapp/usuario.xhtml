@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition template="_template.xhtml">
+	<ui:define name="conteudo">
+	
+	<h:head />
+
+	<h:body>
+	<p:fieldset >
+	<h2>USUÁRIO</h2>
+				<p:fieldset>
+					<p:fieldset>
+						<h:form id="idFormNovoUsuario">
+<!-- 							<p:messages /> -->
+							<h4>Dados do usuário</h4>
+							<h:panelGrid columns="2" id="idPanelNovoUsuario">
+
+								<p:outputLabel value="Nome:" for="nome" />
+								<p:inputText id="nome" value="#{usuarioBean.usuario.nome}" required="true"/>
+
+								<p:outputLabel value="E-mail:" for="email" />
+								<p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true"/>
+
+								<p:outputLabel value="Login:" for="login" />
+								<p:inputText id="login" value="#{usuarioBean.usuario.login}" required="true"/>
+
+								<p:commandButton value="Gravar" action="#{usuarioBean.gravar}" process="@form" update="@form: idForm2"/>
+							</h:panelGrid>
+						</h:form>
+					</p:fieldset>
+
+
+				</p:fieldset>
+				<br />
+				<p:fieldset >
+					<h:form id="idForm2">
+						<p:dataTable value="#{usuarioBean.usuarios}" var="usuario"
+							id="tabelaUsuarios" emptyMessage="Nenhum Usuario"
+							paginator="true" rows="10" style="text-align: center;">
+							<f:facet name="header">Usuários</f:facet>
+
+							<p:column headerText="Nome" sortBy="#{usuario.nome}"
+								filterBy="#{usuario.nome}" filterMatchMode="contains">
+								<p:outputLabel value="#{usuario.nome}" />
+							</p:column>
+
+							<p:column headerText="E-mail" sortBy="#{usuario.email}"
+								filterBy="#{usuario.email}" filterMatchMode="contains">
+								<p:outputLabel value="#{usuario.email}" />
+							</p:column>
+
+							<p:column headerText="Login" sortBy="#{usuario.login}"
+								filterBy="#{usuario.login}" filterMatchMode="contains">
+								<p:outputLabel value="#{usuario.login}" />
+							</p:column>
+
+							<p:column headerText="Enviar Senha Padrão">
+								<p:commandButton value="Enviar" />
+							</p:column>
+
+							<p:column headerText="Alterar">
+								<p:commandButton icon="fa fa-fw fa-edit"
+									action="#{usuarioBean.carregarUsuarioParaEdicao(usuario)}">
+									<f:ajax render="idFormNovoUsuario" execute="idForm2" />
+								</p:commandButton>
+							</p:column>
+
+							<p:column headerText="Remover">
+								<p:commandButton icon="fa fa-fw fa-remove"
+									action="#{usuarioBean.removerUsuario(usuario)}">
+									<f:ajax render="idForm2" execute="idForm2" />
+								</p:commandButton>
+							</p:column>
+
+						</p:dataTable>
+					</h:form>
+				</p:fieldset>
+		<br />
+	</p:fieldset>
+	</h:body>
+	</ui:define>
+	</ui:composition>
+</html>
